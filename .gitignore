@@ -1,0 +1,4 @@
+vmlinux.h
+*.o
+loader
+*.skel.h
