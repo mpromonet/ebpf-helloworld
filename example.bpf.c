@@ -21,7 +21,8 @@ int trace_unlinkat(struct trace_event_raw_sys_enter* ctx) {
 
     // Read the filename argument from user space
     char filename[256];
-    bpf_probe_read_user_str(&filename, sizeof(filename), (void *)(ctx->args[1]));
+    unsigned long filename_ptr = BPF_CORE_READ(ctx, args[1]);
+    bpf_probe_read_user_str(&filename, sizeof(filename), (const char *)filename_ptr);
 
     bpf_printk("Intercepted unlinkat: pid=%d, comm=%s, filename=%s\n", pid, comm, filename);
 
